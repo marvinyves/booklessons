@@ -1,6 +1,10 @@
 {
   "name": "lesson-leafs",
   "private": true,
+  "scripts": {
+    "build": "cd client && npm install && npm run build && cd ../server && npm install",
+    "start": "node server/index.js"
+  },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.37.0"
   }

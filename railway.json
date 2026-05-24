@@ -3,11 +3,11 @@
   "build": {
     "builder": "RAILPACK",
     "buildEnvironment": "V3",
-    "buildCommand": "cd client && npm install && npm run build && cd ../server && npm install"
+    "buildCommand": "npm run build"
   },
   "deploy": {
     "runtime": "V2",
-    "startCommand": "cd server && node index.js",
+    "startCommand": "npm start",
     "numReplicas": 1,
     "sleepApplication": false,
     "useLegacyStacker": false,
