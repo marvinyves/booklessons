@@ -1,0 +1,7 @@
+{
+  "name": "lesson-leafs",
+  "private": true,
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.37.0"
+  }
+}
