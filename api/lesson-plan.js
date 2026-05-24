@@ -31,6 +31,18 @@ Return this exact JSON shape:
   "modules": [ ...array of 12-13 module objects... ]
 }`
 
+function parseBody(req) {
+  return new Promise((resolve, reject) => {
+    let data = ''
+    req.on('data', (chunk) => { data += chunk })
+    req.on('end', () => {
+      try { resolve(data ? JSON.parse(data) : {}) }
+      catch (e) { reject(e) }
+    })
+    req.on('error', reject)
+  })
+}
+
 module.exports = async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Origin', '*')
   res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS')
@@ -39,13 +51,15 @@ module.exports = async function handler(req, res) {
   if (req.method === 'OPTIONS') return res.status(200).end()
   if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' })
 
-  const { title, author, summary } = req.body || {}
-  if (!title) return res.status(400).json({ error: 'Book title required' })
+  let body
+  try {
+    body = await parseBody(req)
+  } catch {
+    return res.status(400).json({ error: 'Invalid JSON body' })
+  }
 
-  res.setHeader('Content-Type', 'text/event-stream')
-  res.setHeader('Cache-Control', 'no-cache')
-  res.setHeader('Connection', 'keep-alive')
-  res.flushHeaders()
+  const { title, author, summary } = body
+  if (!title) return res.status(400).json({ error: 'Book title required' })
 
   try {
     const client = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY })
@@ -58,7 +72,7 @@ Summary: ${summary || 'No summary available'}
 
 Return only the JSON object with a "modules" array.`
 
-    const stream = await client.messages.stream({
+    const message = await client.messages.create({
       model: 'claude-sonnet-4-6',
       max_tokens: 8192,
       system: [
@@ -71,17 +85,11 @@ Return only the JSON object with a "modules" array.`
       messages: [{ role: 'user', content: userMessage }],
     })
 
-    for await (const chunk of stream) {
-      if (chunk.type === 'content_block_delta' && chunk.delta?.type === 'text_delta') {
-        res.write(`data: ${JSON.stringify({ type: 'chunk', text: chunk.delta.text })}\n\n`)
-      }
-    }
-
-    res.write(`data: ${JSON.stringify({ type: 'done' })}\n\n`)
+    const text = message.content[0].text
+    const parsed = JSON.parse(text)
+    res.status(200).json(parsed)
   } catch (err) {
     console.error('Lesson generation error:', err)
-    res.write(`data: ${JSON.stringify({ type: 'error', message: err.message })}\n\n`)
-  } finally {
-    res.end()
+    res.status(500).json({ error: err.message || 'Failed to generate lesson plan' })
   }
 }
