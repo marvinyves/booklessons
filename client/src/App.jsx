@@ -6,6 +6,7 @@ import SearchBar from './components/SearchBar'
 import BookResults from './components/BookResults'
 import LessonPlan from './components/LessonPlan'
 import SavedLibrary from './components/SavedLibrary'
+import AuthorTicker from './components/AuthorTicker'
 
 export default function App() {
   const store = useLessonStore()
@@ -101,7 +102,8 @@ export default function App() {
                 Search for any non-fiction book and get a structured, science-backed lesson plan — built around how you actually retain things.
               </p>
             </div>
-            <SearchBar onSearch={handleSearch} loading={searching} />
+            <SearchBar onSearch={handleSearch} onBuildPlan={handleBuildPlan} generatingId={generatingId} loading={searching} />
+            <AuthorTicker />
             <SavedLibrary
               savedBooks={store.savedBooks}
               onResume={handleResume}
@@ -113,7 +115,7 @@ export default function App() {
         {view === 'results' && (
           <>
             <div style={{ marginBottom: 32 }}>
-              <SearchBar onSearch={handleSearch} loading={searching} />
+              <SearchBar onSearch={handleSearch} onBuildPlan={handleBuildPlan} generatingId={generatingId} loading={searching} />
             </div>
             <BookResults
               books={searchResults}
