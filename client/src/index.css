@@ -1,0 +1,136 @@
+@import url('https://fonts.googleapis.com/css2?family=Literata:ital,opsz,wght@0,7..72,300..700;1,7..72,300..700&family=Figtree:wght@400;500;600&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  /* Warm cream palette — OKLCH */
+  --cream:        oklch(97.5% 0.006 75);
+  --cream-2:      oklch(95%   0.008 75);
+  --cream-3:      oklch(91%   0.010 75);
+  --border:       oklch(88%   0.008 75);
+  --border-2:     oklch(83%   0.010 75);
+
+  /* Ink — deep warm charcoal */
+  --ink:          oklch(18%   0.015 65);
+  --ink-2:        oklch(38%   0.012 65);
+  --ink-3:        oklch(58%   0.010 65);
+  --ink-4:        oklch(72%   0.008 65);
+
+  /* Accent — deep teal-green */
+  --accent:       oklch(35%   0.10  168);
+  --accent-mid:   oklch(50%   0.11  168);
+  --accent-light: oklch(94%   0.04  168);
+  --accent-text:  oklch(30%   0.09  168);
+
+  /* Status */
+  --learning:     oklch(52%   0.12  240);
+  --learning-bg:  oklch(95%   0.04  240);
+  --practiced:    oklch(60%   0.13   70);
+  --practiced-bg: oklch(95%   0.06   70);
+  --applied:      oklch(46%   0.12  155);
+  --applied-bg:   oklch(95%   0.05  155);
+
+  /* Fonts */
+  --font-serif: 'Literata', Georgia, serif;
+  --font-sans:  'Figtree', system-ui, sans-serif;
+
+  /* Spacing tokens */
+  --space-xs:  4px;
+  --space-sm:  8px;
+  --space-md:  16px;
+  --space-lg:  24px;
+  --space-xl:  32px;
+  --space-2xl: 48px;
+  --space-3xl: 64px;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: var(--cream);
+  color: var(--ink);
+  font-family: var(--font-sans);
+  font-size: 15px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3, h4 {
+  font-family: var(--font-serif);
+  font-weight: 400;
+  line-height: 1.2;
+  color: var(--ink);
+  margin: 0;
+}
+
+p { margin: 0; }
+
+/* ── Responsive tokens ────────────────────── */
+:root {
+  --page-padding:   24px;
+  --page-max:       720px;
+  --hero-size:      42px;
+  --hero-leading:   1.15;
+  --header-h:       56px;
+  --module-num-size: 28px;
+  --section-gap:    48px;
+}
+
+@media (max-width: 640px) {
+  :root {
+    --page-padding:   16px;
+    --hero-size:      30px;
+    --hero-leading:   1.2;
+    --header-h:       48px;
+    --module-num-size: 22px;
+    --section-gap:    32px;
+  }
+}
+
+/* ── Mobile utility classes ───────────────── */
+.book-header {
+  display: flex;
+  gap: 20px;
+}
+
+@media (max-width: 480px) {
+  .book-header {
+    flex-direction: column;
+    gap: 12px;
+  }
+}
+
+.module-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 20px;
+  padding: 20px 0;
+  cursor: pointer;
+  user-select: none;
+}
+
+@media (max-width: 480px) {
+  .module-row {
+    gap: 12px;
+  }
+  .module-expanded-content {
+    padding-left: 0 !important;
+  }
+}
+
+.result-meta {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+@media (max-width: 400px) {
+  .result-meta {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+  }
+}
