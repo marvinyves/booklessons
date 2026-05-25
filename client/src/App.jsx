@@ -7,6 +7,8 @@ import BookResults from './components/BookResults'
 import LessonPlan from './components/LessonPlan'
 import SavedLibrary from './components/SavedLibrary'
 import AuthorTicker from './components/AuthorTicker'
+import GeneratingOverlay from './components/GeneratingOverlay'
+import { CLEAR_THINKING_PREVIEW } from './devPreviewData'
 
 export default function App() {
   const store = useLessonStore()
@@ -52,6 +54,13 @@ export default function App() {
     }
   }
 
+  function handlePreview() {
+    store.addBook(CLEAR_THINKING_PREVIEW)
+    store.saveLessonPlan(CLEAR_THINKING_PREVIEW.id, CLEAR_THINKING_PREVIEW.lessonPlan.modules)
+    setActiveBookId(CLEAR_THINKING_PREVIEW.id)
+    setView('lesson')
+  }
+
   function handleResume(book) {
     store.setLastAccessed(book.id)
     setActiveBookId(book.id)
@@ -60,8 +69,11 @@ export default function App() {
 
   const activeBook = store.getBook(activeBookId)
 
+  const generatingBook = generatingId ? store.getBook(generatingId) : null
+
   return (
     <div style={{ minHeight: '100vh', background: 'var(--cream)' }}>
+      {generatingBook && <GeneratingOverlay book={generatingBook} />}
       <header style={{
         borderBottom: '1px solid var(--border)',
         position: 'sticky', top: 0, zIndex: 10,
@@ -103,6 +115,15 @@ export default function App() {
               </p>
             </div>
             <SearchBar onSearch={handleSearch} onBuildPlan={handleBuildPlan} generatingId={generatingId} loading={searching} />
+            <div style={{ marginTop: 12 }}>
+              <button onClick={handlePreview} style={{
+                fontFamily: 'var(--font-sans)', fontSize: 12, color: 'var(--ink-4)',
+                background: 'none', border: '1px dashed var(--border-2)', cursor: 'pointer',
+                padding: '5px 12px', borderRadius: 6,
+              }}>
+                Preview design →
+              </button>
+            </div>
             <AuthorTicker />
             <SavedLibrary
               savedBooks={store.savedBooks}
