@@ -7,22 +7,13 @@ router.post('/', async (req, res) => {
   const { title, author, summary } = req.body
   if (!title) return res.status(400).json({ error: 'Book title required' })
 
-  res.setHeader('Content-Type', 'text/event-stream')
-  res.setHeader('Cache-Control', 'no-cache')
-  res.setHeader('Connection', 'keep-alive')
-  res.flushHeaders()
-
   try {
-    await generateLessonPlan({ title, author, summary }, (chunk) => {
-      res.write(`data: ${JSON.stringify({ type: 'chunk', text: chunk })}\n\n`)
-    })
-
-    res.write(`data: ${JSON.stringify({ type: 'done' })}\n\n`)
+    const result = await generateLessonPlan({ title, author, summary })
+    const parsed = JSON.parse(result)
+    res.json(parsed)
   } catch (err) {
     console.error('Lesson generation error:', err)
-    res.write(`data: ${JSON.stringify({ type: 'error', message: err.message })}\n\n`)
-  } finally {
-    res.end()
+    res.status(500).json({ error: err.message || 'Failed to generate lesson plan' })
   }
 })
 
