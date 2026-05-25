@@ -122,15 +122,6 @@ export default function App() {
               <LearningScience />
             </div>
             <SearchBar onSearch={handleSearch} onBuildPlan={handleBuildPlan} generatingId={generatingId} loading={searching} />
-            <div style={{ marginTop: 12 }}>
-              <button onClick={handlePreview} style={{
-                fontFamily: 'var(--font-sans)', fontSize: 12, color: 'var(--ink-4)',
-                background: 'none', border: '1px dashed var(--border-2)', cursor: 'pointer',
-                padding: '5px 12px', borderRadius: 6,
-              }}>
-                Preview design →
-              </button>
-            </div>
             <AuthorTicker />
             <SavedLibrary
               savedBooks={store.savedBooks}
