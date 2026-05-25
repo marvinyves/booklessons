@@ -61,7 +61,7 @@ Return only the JSON object with a "modules" array.`
     if (chunk.type === 'content_block_delta' && chunk.delta?.type === 'text_delta') {
       const text = chunk.delta.text
       fullText += text
-      onChunk(text)
+      onChunk?.(text)
     }
   }
 
