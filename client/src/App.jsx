@@ -109,7 +109,7 @@ export default function App() {
         </div>
       </header>
 
-      <main style={{ maxWidth: 'var(--page-max)', margin: '0 auto', padding: 'var(--section-gap) var(--page-padding) 96px' }}>
+      <main style={{ maxWidth: 'var(--page-max)', margin: '0 auto', padding: 'var(--section-gap) var(--page-padding) 64px' }}>
         {view === 'home' && (
           <>
             <div style={{ marginBottom: 'var(--section-gap)' }}>
@@ -157,6 +157,19 @@ export default function App() {
           />
         )}
       </main>
+      <footer style={{
+        borderTop: '1px solid var(--border)',
+        padding: '20px var(--page-padding)',
+        display: 'flex', justifyContent: 'center',
+      }}>
+        <p style={{
+          fontFamily: 'var(--font-sans)', fontSize: 12.5,
+          color: 'var(--ink-4)', display: 'flex', alignItems: 'center', gap: 6,
+        }}>
+          <span style={{ fontSize: 15 }}>🦜</span>
+          Made by Marvin
+        </p>
+      </footer>
     </div>
   )
 }
