@@ -8,6 +8,7 @@ import LessonPlan from './components/LessonPlan'
 import SavedLibrary from './components/SavedLibrary'
 import AuthorTicker from './components/AuthorTicker'
 import GeneratingOverlay from './components/GeneratingOverlay'
+import LearningScience from './components/LearningScience'
 import { CLEAR_THINKING_PREVIEW } from './devPreviewData'
 
 export default function App() {
@@ -115,9 +116,10 @@ export default function App() {
               <h1 style={{ fontFamily: 'var(--font-serif)', fontSize: 'var(--hero-size)', fontWeight: 300, color: 'var(--ink)', letterSpacing: '-0.02em', lineHeight: 'var(--hero-leading)', marginBottom: 12 }}>
                 Every book you read<br />deserves a proper lesson.
               </h1>
-              <p style={{ fontFamily: 'var(--font-sans)', fontSize: 15, color: 'var(--ink-3)', maxWidth: '46ch', lineHeight: 1.6 }}>
+              <p style={{ fontFamily: 'var(--font-sans)', fontSize: 15, color: 'var(--ink-3)', maxWidth: '46ch', lineHeight: 1.6, marginBottom: 16 }}>
                 Search for any non-fiction book and get a structured, science-backed lesson plan — built around how you actually retain things.
               </p>
+              <LearningScience />
             </div>
             <SearchBar onSearch={handleSearch} onBuildPlan={handleBuildPlan} generatingId={generatingId} loading={searching} />
             <div style={{ marginTop: 12 }}>
