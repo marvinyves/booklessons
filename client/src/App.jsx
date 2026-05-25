@@ -36,14 +36,19 @@ export default function App() {
   }
 
   async function handleBuildPlan(book) {
+    // Check BEFORE adding — uses current state, not stale post-addBook state
+    const existing = store.getBook(book.id)
+    if (existing?.lessonPlan) {
+      setActiveBookId(book.id)
+      setView('lesson')
+      return
+    }
+
     store.addBook(book)
     setActiveBookId(book.id)
     setView('lesson')
-
-    const existing = store.getBook(book.id)
-    if (existing?.lessonPlan) return
-
     setGeneratingId(book.id)
+
     try {
       const modules = await generateLessonPlan(book)
       store.saveLessonPlan(book.id, modules)
