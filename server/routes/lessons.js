@@ -9,7 +9,9 @@ router.post('/', async (req, res) => {
 
   try {
     const result = await generateLessonPlan({ title, author, summary })
-    const parsed = JSON.parse(result)
+    // Strip markdown code fences Claude sometimes adds despite instructions
+    const clean = result.replace(/^```(?:json)?\s*/m, '').replace(/\s*```\s*$/m, '').trim()
+    const parsed = JSON.parse(clean)
     res.json(parsed)
   } catch (err) {
     console.error('Lesson generation error:', err)

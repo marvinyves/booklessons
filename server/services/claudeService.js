@@ -46,7 +46,7 @@ Return only the JSON object with a "modules" array.`
 
   const stream = await client.messages.stream({
     model: 'claude-sonnet-4-6',
-    max_tokens: 8192,
+    max_tokens: 16000,
     system: [
       {
         type: 'text',
